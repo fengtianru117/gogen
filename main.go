@@ -6,9 +6,15 @@ import (
 	"go/parser"
 	"go/token"
 	"io/ioutil"
+	"regexp"
 )
 
 func main() {
+	// ctx := context.Background()
+	// tool.Main()
+}
+
+func F() {
 
 	src, err := ioutil.ReadFile("./temp.go")
 	if err != nil {
@@ -27,9 +33,14 @@ func main() {
 	for _, field := range fields {
 
 		tag := field.Tag.Value
-		tag2 := field.Tag.ValuePos
 		fmt.Println(tag)
-		fmt.Println(tag2)
+
+		temp := `bson:"([^"]+)"`
+		match, err := regexp.MatchString(temp, tag)
+		if err != nil {
+			panic(err)
+		}
+		fmt.Println(match)
 
 		typeNameExpr := field.Names
 		fmt.Println(typeNameExpr[0].String())
